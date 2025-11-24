@@ -1,12 +1,14 @@
 package emsi.ma.annonceservice.service.impl;
 
 import emsi.ma.annonceservice.client.UserServiceClient;
+import emsi.ma.annonceservice.client.dto.UserResponseDto;
 import emsi.ma.annonceservice.domain.entity.Ad;
 import emsi.ma.annonceservice.domain.entity.AdStatus;
 import emsi.ma.annonceservice.repository.AdRepository;
 import emsi.ma.annonceservice.service.IAdService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +32,7 @@ public class AdServiceImpl implements IAdService {
         log.info("   Endpoint: GET /api/users/{}", ad.getOwnerId());
         
         try {
-            ResponseEntity<emsi.ma.annonceservice.client.dto.UserResponseDto> response = 
+            ResponseEntity<UserResponseDto> response =
                 userServiceClient.getUserById(ad.getOwnerId());
             
             // Vérifier le status code HTTP
