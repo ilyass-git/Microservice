@@ -13,3 +13,6 @@ public interface AdMapper {
     Ad partialUpdate(AdDto adDto, @MappingTarget Ad ad);
 }
 
+
+
+

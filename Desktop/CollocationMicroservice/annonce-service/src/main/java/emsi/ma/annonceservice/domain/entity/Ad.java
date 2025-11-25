@@ -34,3 +34,6 @@ public class Ad {
     private AdStatus status;
 }
 
+
+
+

@@ -18,3 +18,6 @@ public class AdDto implements Serializable {
     AdStatus status;
 }
 
+
+
+

@@ -17,3 +17,6 @@ public interface IAdService {
     void delete(Long id);
 }
 
+
+
+

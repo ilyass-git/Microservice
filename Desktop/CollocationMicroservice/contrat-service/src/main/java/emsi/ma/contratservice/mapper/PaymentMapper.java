@@ -13,3 +13,6 @@ public interface PaymentMapper {
     Payment partialUpdate(PaymentDto paymentDto, @MappingTarget Payment payment);
 }
 
+
+
+

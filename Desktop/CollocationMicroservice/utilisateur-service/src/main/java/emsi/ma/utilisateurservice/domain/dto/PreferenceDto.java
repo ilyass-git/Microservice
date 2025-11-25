@@ -14,3 +14,6 @@ public class PreferenceDto implements Serializable {
     Boolean smokingAllowed;
 }
 
+
+
+

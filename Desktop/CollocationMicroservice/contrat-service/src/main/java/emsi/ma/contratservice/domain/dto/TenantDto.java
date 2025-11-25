@@ -12,3 +12,6 @@ public class TenantDto implements Serializable {
     Long roomId;
 }
 
+
+
+

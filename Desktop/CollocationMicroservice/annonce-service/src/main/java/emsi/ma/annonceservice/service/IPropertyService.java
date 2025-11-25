@@ -15,3 +15,6 @@ public interface IPropertyService {
     void delete(Long id);
 }
 
+
+
+

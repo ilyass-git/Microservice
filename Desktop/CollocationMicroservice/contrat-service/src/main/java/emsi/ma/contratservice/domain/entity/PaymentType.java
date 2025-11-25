@@ -4,3 +4,6 @@ public enum PaymentType {
     RENT, DEPOSIT
 }
 
+
+
+

@@ -13,3 +13,6 @@ public interface ProfileMapper {
     Profile partialUpdate(ProfileDto profileDto, @MappingTarget Profile profile);
 }
 
+
+
+

@@ -13,3 +13,6 @@ public interface PropertyMapper {
     Property partialUpdate(PropertyDto propertyDto, @MappingTarget Property property);
 }
 
+
+
+

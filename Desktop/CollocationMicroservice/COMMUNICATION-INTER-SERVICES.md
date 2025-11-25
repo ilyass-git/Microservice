@@ -343,3 +343,6 @@ annonce-service/
 
 **La communication inter-services est maintenant active ! Testez-la avec les exemples ci-dessus. 🎉**
 
+
+
+

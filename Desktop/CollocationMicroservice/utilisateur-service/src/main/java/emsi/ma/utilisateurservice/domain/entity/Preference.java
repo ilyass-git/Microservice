@@ -19,3 +19,6 @@ public class Preference {
     private Boolean smokingAllowed;
 }
 
+
+
+

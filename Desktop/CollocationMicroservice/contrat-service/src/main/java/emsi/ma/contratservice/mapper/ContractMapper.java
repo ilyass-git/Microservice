@@ -13,3 +13,6 @@ public interface ContractMapper {
     Contract partialUpdate(ContractDto contractDto, @MappingTarget Contract contract);
 }
 
+
+
+

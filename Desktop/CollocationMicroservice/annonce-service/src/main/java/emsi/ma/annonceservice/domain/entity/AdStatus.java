@@ -6,3 +6,6 @@ public enum AdStatus {
     CLOSED
 }
 
+
+
+

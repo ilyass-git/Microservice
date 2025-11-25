@@ -13,3 +13,6 @@ public interface RoomMapper {
     void partialUpdate(RoomDto roomDto, @MappingTarget Room room);
 }
 
+
+
+

@@ -23,3 +23,6 @@ public class Property {
     private Long ownerId; // référence User service
 }
 
+
+
+

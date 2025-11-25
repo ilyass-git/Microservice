@@ -13,3 +13,6 @@ public interface TenantMapper {
     Tenant partialUpdate(TenantDto tenantDto, @MappingTarget Tenant tenant);
 }
 
+
+
+

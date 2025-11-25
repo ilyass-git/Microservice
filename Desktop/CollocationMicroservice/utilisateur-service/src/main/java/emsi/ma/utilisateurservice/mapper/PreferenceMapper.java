@@ -13,3 +13,6 @@ public interface PreferenceMapper {
     Preference partialUpdate(PreferenceDto preferenceDto, @MappingTarget Preference preference);
 }
 
+
+
+

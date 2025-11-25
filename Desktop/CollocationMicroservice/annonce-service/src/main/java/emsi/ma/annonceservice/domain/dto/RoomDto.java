@@ -14,3 +14,6 @@ public class RoomDto implements Serializable {
     Boolean isAvailable;
 }
 
+
+
+

@@ -14,3 +14,6 @@ public interface ITenantService {
     void delete(Long id);
 }
 
+
+
+

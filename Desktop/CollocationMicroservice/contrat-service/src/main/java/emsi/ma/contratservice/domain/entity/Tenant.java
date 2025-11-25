@@ -16,3 +16,6 @@ public class Tenant {
     private Long roomId;
 }
 
+
+
+

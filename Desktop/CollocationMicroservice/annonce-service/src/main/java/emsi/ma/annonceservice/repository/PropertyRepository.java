@@ -11,3 +11,6 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     List<Property> findByCityAndTitleContaining(String city, String keyword);
 }
 
+
+
+
