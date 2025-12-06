@@ -8,3 +8,5 @@ CREATE TABLE IF NOT EXISTS users (
     INDEX idx_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+

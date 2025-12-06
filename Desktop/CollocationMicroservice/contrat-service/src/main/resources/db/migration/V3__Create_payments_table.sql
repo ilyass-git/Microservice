@@ -8,3 +8,5 @@ CREATE TABLE IF NOT EXISTS payments (
     INDEX idx_due_date (due_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+

@@ -13,8 +13,11 @@ public interface IRoomService {
     List<Room> getAvailableRooms();
     List<Room> getByPriceLessThan(BigDecimal maxPrice);
     Room update(Long id, Room room);
+    void updateAvailability(Long id, Boolean isAvailable);
     void delete(Long id);
 }
+
+
 
 
 

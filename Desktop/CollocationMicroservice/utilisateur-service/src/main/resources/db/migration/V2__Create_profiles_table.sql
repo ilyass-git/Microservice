@@ -7,3 +7,5 @@ CREATE TABLE IF NOT EXISTS profiles (
     INDEX idx_user_id (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+

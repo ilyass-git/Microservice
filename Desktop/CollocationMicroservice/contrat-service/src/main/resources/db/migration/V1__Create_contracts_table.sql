@@ -8,3 +8,5 @@ CREATE TABLE IF NOT EXISTS contracts (
     INDEX idx_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+

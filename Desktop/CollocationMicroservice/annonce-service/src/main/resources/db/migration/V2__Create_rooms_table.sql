@@ -8,3 +8,5 @@ CREATE TABLE IF NOT EXISTS rooms (
     INDEX idx_is_available (is_available)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+

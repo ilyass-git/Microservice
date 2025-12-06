@@ -18,3 +18,5 @@ CREATE TABLE IF NOT EXISTS ad_photo_urls (
     INDEX idx_ad_id (ad_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+

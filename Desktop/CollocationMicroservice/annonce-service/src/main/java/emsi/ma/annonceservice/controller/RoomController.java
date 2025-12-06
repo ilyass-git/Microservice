@@ -66,12 +66,20 @@ public class RoomController {
         return ResponseEntity.ok(roomMapper.toDto(updated));
     }
 
+    @PutMapping("/{id}/availability")
+    public ResponseEntity<Void> updateAvailability(@PathVariable Long id, @RequestBody Boolean isAvailable) {
+        roomService.updateAvailability(id, isAvailable);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         roomService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
+
+
 
 
 

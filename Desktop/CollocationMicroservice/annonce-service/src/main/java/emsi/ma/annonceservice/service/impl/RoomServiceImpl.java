@@ -48,10 +48,20 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
+    public void updateAvailability(Long id, Boolean isAvailable) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Chambre avec ID " + id + " non trouvée"));
+        room.setIsAvailable(isAvailable);
+        roomRepository.save(room);
+    }
+
+    @Override
     public void delete(Long id) {
         roomRepository.deleteById(id);
     }
 }
+
+
 
 
 

@@ -1,10 +1,13 @@
 package emsi.ma.contratservice.service.impl;
 
+import emsi.ma.contratservice.client.RoomServiceClient;
 import emsi.ma.contratservice.client.UserServiceClient;
+import emsi.ma.contratservice.client.dto.RoomDto;
 import emsi.ma.contratservice.client.dto.UserResponseDto;
 import emsi.ma.contratservice.domain.entity.Tenant;
 import emsi.ma.contratservice.repository.TenantRepository;
 import emsi.ma.contratservice.service.ITenantService;
+import emsi.ma.contratservice.service.ContractEventProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,8 @@ public class TenantServiceImpl implements ITenantService {
 
     private final TenantRepository tenantRepository;
     private final UserServiceClient userServiceClient; // Client Feign pour communication inter-service
+    private final RoomServiceClient roomServiceClient; // Client Feign pour communication inter-service
+    private final ContractEventProducer contractEventProducer; // Producer Kafka
 
     @Override
     public Tenant create(Tenant tenant) {
@@ -61,8 +66,56 @@ public class TenantServiceImpl implements ITenantService {
             throw new RuntimeException("Impossible de vérifier l'utilisateur: " + e.getMessage(), e);
         }
         
-        log.info("✅ Création du tenant pour l'utilisateur ID: {}", tenant.getUserId());
-        return tenantRepository.save(tenant);
+        // Vérifier la chambre si roomId est fourni
+        if (tenant.getRoomId() != null) {
+            log.info("🔗 [COMMUNICATION INTER-SERVICE] Vérification de la chambre ID: {}", tenant.getRoomId());
+            log.info("   Service appelant: contrat-service");
+            log.info("   Service appelé: annonce-service");
+            log.info("   Endpoint: GET /api/rooms/{}", tenant.getRoomId());
+            
+            try {
+                ResponseEntity<RoomDto> roomResponse = roomServiceClient.getRoomById(tenant.getRoomId());
+                
+                if (!roomResponse.getStatusCode().is2xxSuccessful() || roomResponse.getBody() == null) {
+                    log.warn("❌ [COMMUNICATION ÉCHOUÉE] Chambre ID {} non trouvée", tenant.getRoomId());
+                    throw new RuntimeException("Chambre avec ID " + tenant.getRoomId() + " n'existe pas");
+                }
+                
+                var room = roomResponse.getBody();
+                
+                // Vérifier que la chambre est disponible
+                if (!room.getIsAvailable()) {
+                    log.warn("❌ [CHAMBRE INDISPONIBLE] Chambre ID {} n'est pas disponible", tenant.getRoomId());
+                    throw new RuntimeException("Chambre avec ID " + tenant.getRoomId() + " n'est pas disponible");
+                }
+                
+                log.info("✅ [COMMUNICATION RÉUSSIE] Chambre trouvée: {} (ID: {}) - Disponible: {}", 
+                        room.getName(), room.getId(), room.getIsAvailable());
+                
+                // Marquer la chambre comme non disponible
+                log.info("🔄 [MISE À JOUR] Marquage de la chambre ID {} comme non disponible", tenant.getRoomId());
+                roomServiceClient.updateAvailability(tenant.getRoomId(), false);
+                log.info("✅ Chambre ID {} marquée comme non disponible", tenant.getRoomId());
+                
+            } catch (RuntimeException e) {
+                if (e.getMessage().contains("n'existe pas") || e.getMessage().contains("pas disponible")) {
+                    throw e;
+                }
+                log.error("❌ [ERREUR COMMUNICATION] Erreur lors de la communication avec annonce-service: {}", e.getMessage());
+                throw new RuntimeException("Impossible de vérifier la chambre: " + e.getMessage(), e);
+            }
+        }
+        
+        log.info("✅ Création du tenant pour l'utilisateur ID: {} et chambre ID: {}", 
+                tenant.getUserId(), tenant.getRoomId());
+        Tenant savedTenant = tenantRepository.save(tenant);
+        
+        // Publier l'événement Kafka si une chambre est associée
+        if (savedTenant.getRoomId() != null) {
+            contractEventProducer.publishTenantCreated(savedTenant);
+        }
+        
+        return savedTenant;
     }
 
     @Override

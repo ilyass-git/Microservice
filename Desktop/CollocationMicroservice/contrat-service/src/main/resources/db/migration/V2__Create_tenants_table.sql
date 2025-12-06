@@ -8,3 +8,5 @@ CREATE TABLE IF NOT EXISTS tenants (
     INDEX idx_room_id (room_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+

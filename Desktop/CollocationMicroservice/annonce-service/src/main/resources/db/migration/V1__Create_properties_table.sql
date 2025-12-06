@@ -9,3 +9,5 @@ CREATE TABLE IF NOT EXISTS properties (
     INDEX idx_city (city)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+
