@@ -24,8 +24,11 @@ public class KafkaProducerConfig {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        return new DefaultKafkaProducerFactory<>(configProps);
+        // Désactiver l'utilisation du type dans les headers pour éviter les problèmes de désérialisation
+        // En passant false comme deuxième paramètre, on désactive l'ajout du type dans les headers
+        JsonSerializer<Object> jsonSerializer = new JsonSerializer<>();
+        jsonSerializer.setAddTypeInfo(false);
+        return new DefaultKafkaProducerFactory<>(configProps, new StringSerializer(), jsonSerializer);
     }
 
     @Bean
